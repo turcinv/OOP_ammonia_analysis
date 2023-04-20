@@ -1,0 +1,3 @@
+#&EXT_RESTART
+#  EXTERNAL_FILE small-clusters-1.restart
+#&END EXT_RESTART

@@ -1,0 +1,195 @@
+&FORCE_EVAL
+  &DFT
+    CHARGE -1
+    MULTIPLICITY 2
+    LSD
+    BASIS_SET_FILE_NAME GTH_BASIS_SETS
+    BASIS_SET_FILE_NAME BASIS_ADMM
+    POTENTIAL_FILE_NAME POTENTIAL
+#    WFN_RESTART_FILE_NAME small-clusters-RESTART.wfn
+    &MGRID
+      CUTOFF 400
+    &END MGRID
+    &POISSON
+      PERIODIC NONE
+      POISSON_SOLVER WAVELET
+    &END
+    &SCF
+      SCF_GUESS RESTART
+      MAX_SCF 20
+      EPS_SCF 5.0E-7
+      &OT
+        MINIMIZER DIIS
+    	PRECONDITIONER FULL_ALL
+        ENERGY_GAP 0.002
+      &END OT
+      &OUTER_SCF
+        MAX_SCF 20
+        EPS_SCF 5.0E-7
+      &END OUTER_SCF
+      &PRINT
+        &RESTART
+          ADD_LAST NUMERIC
+          &EACH
+            QS_SCF 0
+            MD 1
+          &END EACH
+        BACKUP_COPIES 10
+        &END RESTART
+      &END PRINT
+    &END SCF
+    &QS
+      EPS_DEFAULT 1.0E-12
+      EPS_PGF_ORB 1.0E-20
+      EXTRAPOLATION_ORDER 4
+    &END QS
+    &XC
+      &XC_FUNCTIONAL
+        &PBE
+          PARAMETRIZATION REVPBE
+          SCALE_X 0.75
+          SCALE_C 1.0
+        &END PBE
+      &END XC_FUNCTIONAL
+      &HF
+        FRACTION 0.25
+        &SCREENING
+          EPS_SCHWARZ 3.0E-8
+          SCREEN_ON_INITIAL_P .TRUE.
+        &END SCREENING
+        &MEMORY
+          MAX_MEMORY 3700
+          EPS_STORAGE_SCALING 0.1
+        &END MEMORY
+        &INTERACTION_POTENTIAL
+          POTENTIAL_TYPE TRUNCATED
+          CUTOFF_RADIUS 6.0
+          T_C_G_DATA t_c_g.dat
+        &END INTERACTION_POTENTIAL
+        &HF_INFO
+        &END HF_INFO
+      &END HF
+      &XC_GRID
+        XC_DERIV NN50_SMOOTH
+      &END XC_GRID
+      &VDW_POTENTIAL
+        POTENTIAL_TYPE PAIR_POTENTIAL
+        &PAIR_POTENTIAL
+          TYPE DFTD3
+          R_CUTOFF 15.0
+          LONG_RANGE_CORRECTION
+          REFERENCE_FUNCTIONAL revPBE0
+          PARAMETER_FILE_NAME dftd3.dat
+        &END PAIR_POTENTIAL
+      &END VDW_POTENTIAL
+    &END XC
+    &AUXILIARY_DENSITY_MATRIX_METHOD
+      METHOD BASIS_PROJECTION
+      ADMM_PURIFICATION_METHOD MO_DIAG
+    &END AUXILIARY_DENSITY_MATRIX_METHOD
+    &LOCALIZE
+        METHOD JACOBI
+        USE_HISTORY
+        &PRINT
+            #&MOLECULAR_DIPOLES
+            #   FILENAME
+            #   COMMON_ITERATION_LEVELS 1
+            #&END MOLECULAR_DIPOLES
+            &TOTAL_DIPOLE
+                REFERENCE COAC
+                FILENAME
+                COMMON_ITERATION_LEVELS 1
+            &END TOTAL_DIPOLE
+            &WANNIER_CENTERS
+                IONS+CENTERS
+                FILENAME
+                COMMON_ITERATION_LEVELS 1
+            &END WANNIER_CENTERS
+            &WANNIER_SPREADS
+                FILENAME
+                COMMON_ITERATION_LEVELS 1
+            &END WANNIER_SPREADS
+            &WANNIER_CUBES
+                CUBES_LIST 41
+                &EACH
+                    MD 10
+                &END EACH
+            &END WANNIER_CUBES
+        &END PRINT
+    &END LOCALIZE
+    &PRINT
+        &PDOS
+            APPEND .TRUE.
+            &EACH
+                MD 1
+            &END EACH
+            NLUMO -1
+        &END PDOS
+        &E_DENSITY_CUBE ON
+            &EACH
+                MD 10
+            &END EACH
+            STRIDE 2
+        &END E_DENSITY_CUBE
+        &HIRSHFELD
+            &EACH
+                MD 1
+            &END EACH
+            FILENAME charge
+        &END HIRSHFELD
+        &MULLIKEN
+            &EACH
+                MD 1
+            &END EACH
+            FILENAME charge
+        &END MULLIKEN
+    &END PRINT
+  &END DFT
+  &SUBSYS
+    &TOPOLOGY
+      COORD_FILE_NAME ./small-clusters.xyz
+      COORD_FILE_FORMAT XYZ
+      #      &GENERATE
+      #         CREATE_MOLECULES
+      #      &END GENERATE
+    &END TOPOLOGY
+    &CELL
+      ABC [angstrom] 30.00 30.00 30.00
+      PERIODIC NONE
+    &END CELL
+    &KIND H
+      BASIS_SET TZV2P-GTH
+      BASIS_SET AUX_FIT cpFIT3
+      POTENTIAL GTH-PBE-q1
+    &END KIND
+    &KIND N
+      BASIS_SET TZV2P-GTH
+      BASIS_SET AUX_FIT cpFIT3
+      POTENTIAL GTH-PBE-q5
+    &END KIND
+    &KIND LI
+      BASIS_SET TZV2P-GTH-q3
+      BASIS_SET AUX_FIT cpFIT3
+      POTENTIAL GTH-PBE-q3
+    &END KIND
+    &KIND NA
+        BASIS_SET TZV2P-GTH-q9
+	    BASIS_SET AUX_FIT cpFIT3
+        POTENTIAL GTH-PBE-q9
+    &END KIND
+    &KIND G
+        GHOST
+        ELEMENT He
+        &BASIS
+           1
+           1 0 0 1 1
+           0.1 1.0
+        &END BASIS
+        &BASIS AUX_FIT
+           1
+           1 0 0 1 1
+           0.1 1.0
+        &END BASIS
+    &END KIND
+  &END SUBSYS
+&END FORCE_EVAL

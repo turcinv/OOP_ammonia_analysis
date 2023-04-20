@@ -1,0 +1,39 @@
+&MOTION
+  &MD
+    ENSEMBLE NVT
+    STEPS 10000
+    TIMESTEP 0.5
+    TEMPERATURE 90
+    &THERMOSTAT
+        TYPE CSVR
+        REGION GLOBAL
+        &CSVR
+            TIMECON 1000
+        &END CSVR
+    &END THERMOSTAT
+    &PRINT
+      FORCE_LAST
+    &END PRINT
+  &END MD
+  &CONSTRAINT
+    &FIXED_ATOMS
+        LIST 41..3416
+    &END FIXED_ATOMS
+  &END CONSTRAINT
+  &PRINT
+    &FORCES
+        &EACH
+            MD 1
+        &END EACH
+    &END FORCES
+    &TRAJECTORY
+    &END TRAJECTORY
+    &RESTART
+      ADD_LAST NUMERIC
+      &EACH
+        MD 1
+      &END EACH
+      BACKUP_COPIES 10
+    &END RESTART
+  &END PRINT
+&END MOTION

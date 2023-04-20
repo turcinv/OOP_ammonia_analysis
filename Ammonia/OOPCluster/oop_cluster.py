@@ -52,7 +52,8 @@ class AmmoniaCluster(object):
         plt.xlim([0, 1])
         plt.xticks(np.arange(0, 1, 0.05), rotation=45, fontsize=12)
         plt.yticks(fontsize=12)
-        plt.title("Radial distribution function of ammonia", fontweight="bold", fontsize=15)
+        plt.title("Radial distribution function of ammonia",
+                  fontweight="bold", fontsize=15)
         plt.show()
 
     def control_logs(self):
@@ -136,6 +137,7 @@ class AmmoniaCluster(object):
             format(self)
 
     def get_properties(self):
+        # LM: missing f-string
         return "Properties computing ammonia {self.cluster_id} from TXT file"
 
     def __str__(self):

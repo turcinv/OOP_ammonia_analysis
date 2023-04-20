@@ -1,3 +1,7 @@
+# LM: Tohle si zaslouží nějak rozmyslet:
+# buď nechat jen `dict[int: tuple[int, int]]` a na místě, kde je potřeba přidat nulu, použít formátování `f"{key:02d}"`
+# nebo mít `dict[int: tuple[str, int]]`
+
 data_set = {21: ("02", 1),
             22: ("02", 2),
             34: ("03", 4),

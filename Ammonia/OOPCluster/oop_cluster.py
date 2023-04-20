@@ -25,6 +25,8 @@ class AmmoniaCluster(object):
         ammonia_number = data[0]
         number_of_cluster = data[1]
         return ammonia_number, number_of_cluster
+        # LM: return data[0], data[1]
+        # LM: return (*data_set.get(self.cluster_id))
 
     def make_bash(self):
         return "This method makes SH input of {0.cluster_id}".\
@@ -35,11 +37,9 @@ class AmmoniaCluster(object):
         # TODO filename
         filename = "ammonia-02-1/RDF_data_multitasking.csv"
         # format(ammonia_number, number_of_cluster)
-
-        rNN, g_rNN, rNH, g_rNH, rHH, g_rHH = np.loadtxt(filename,
-                                                        skiprows=1,
-                                                        delimiter=';',
-                                                        unpack=True)
+        # LM: newline
+        rNN, g_rNN, rNH, g_rNH, rHH, g_rHH = \
+            np.loadtxt(filename, skiprows=1, delimiter=';', unpack=True)
 
         plt.figure(figsize=(15, 7))
         plt.plot(rNN, g_rNN, color='indigo', lw=3, label='N-N')
@@ -57,6 +57,7 @@ class AmmoniaCluster(object):
         plt.show()
 
     def control_logs(self):
+        # LM: return f"This method control LOG file of {self.cluster_id}"
         return "This method control LOG file of {0.cluster_id}".\
             format(self)
 
@@ -89,6 +90,7 @@ class AmmoniaCluster(object):
         filename = "./small-clusters-1.csv"
         # format(ammonia_number, number_of_cluster)
         energy = np.loadtxt(filename, skiprows=1, unpack=True, delimiter=";")
+        # LM: unused: step, used_time
         step, time, kin, temp, pot, cons, used_time = energy
 
         plt.figure(figsize=(25, 12.5))

@@ -3,6 +3,11 @@ import numpy as np
 
 
 def read_pickle(args):
+    """
+    Reads pickle file
+    :param args: number of frame and name of dictionary
+    :return:
+    """
     frame, d = args
     with open(f"./cube_files_pickle/ammonia-{frame}.pickle", "rb") as file:
         cube = pickle.load(file)

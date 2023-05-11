@@ -2,6 +2,14 @@ from multiprocessing import Manager, Pool
 
 
 def frame_loader(frame, read_pickle):
+    """
+
+    :param frame: number of frame
+    :param read_pickle: function to read pickle file
+    :return: dictionary with pickle data
+    """
+
+    # multitask processing
     with Manager() as manager:
         dictionary = manager.dict()
         args = [(i, dictionary) for i in frame]

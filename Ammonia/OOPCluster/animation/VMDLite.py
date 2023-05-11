@@ -2,6 +2,11 @@ import numpy as np
 
 
 def read_cube_file(filename):
+    """
+    Reads cube files
+    :param filename: name of cube file
+    :return: data from cube file
+    """
     with open(filename, 'r') as f:
         f.readline()
         f.readline()

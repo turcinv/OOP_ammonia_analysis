@@ -5,7 +5,7 @@ import numpy as np
 @mlab.animate
 def update(dictionary, number_of_molecules, frames, save_frames):
     """
-
+    Make animation in Mayavi
     :param dictionary: name of dictionary with frames
     :param number_of_molecules: number of olecules in system
     :param frames: number of frames

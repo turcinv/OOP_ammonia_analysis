@@ -3,6 +3,12 @@ import os
 
 
 def make_video(folder, fps=60, name="animace.mp4"):
+    """
+    Makes video from frames from Mayavi
+    :param folder: path for folder with frames
+    :param fps: number of frames per second
+    :param name: name of video
+    """
 
     width = 1000
     height = 957

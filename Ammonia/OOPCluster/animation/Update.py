@@ -4,6 +4,14 @@ import numpy as np
 
 @mlab.animate
 def update(dictionary, number_of_molecules, frames, save_frames):
+    """
+
+    :param dictionary: name of dictionary with frames
+    :param number_of_molecules: number of olecules in system
+    :param frames: number of frames
+    :param save_frames: True/False for saving frames
+    """
+    # figure
     fig = mlab.figure(bgcolor=(1, 1, 1), size=(1000, 1000))
     for i in range(frames):
         f = mlab.clf()
@@ -15,11 +23,13 @@ def update(dictionary, number_of_molecules, frames, save_frames):
         y = dictionary[i * 10].get("y")
         z = dictionary[i * 10].get("z")
 
+        # iso-contours
         mlab.contour3d(x, y, z, data, contours=[0.0005, ], opacity=0.8, color=(0, 1, 0.75), transparent=True)
         mlab.contour3d(x, y, z, data, contours=[0.002, ], opacity=0.8, color=(0, 1, 0.50), transparent=True)
         mlab.contour3d(x, y, z, data, contours=[0.001, ], opacity=0.5, color=(153 / 255, 153 / 255, 0),
                        transparent=True)
 
+        # molecules
         atoms = np.array(atoms[:number_of_molecules], dtype=float)
         N = np.array(atoms[::4], dtype=float)
         H1 = np.array(atoms[1::4], dtype=float)
@@ -34,6 +44,7 @@ def update(dictionary, number_of_molecules, frames, save_frames):
         mlab.points3d(h2_x, h2_y, h2_z, scale_factor=1, resolution=20, color=(1, 1, 1), scale_mode='none')
         mlab.points3d(h3_x, h3_y, h3_z, scale_factor=1, resolution=20, color=(1, 1, 1), scale_mode='none')
 
+        # bonds
         for j in range(number_of_molecules // 4):
             N_H1_x, N_H1_y, N_H1_z = [N[j][1], H1[j][1]], [N[j][2], H1[j][2]], [N[j][3], H1[j][3]]
             N_H2_x, N_H2_y, N_H2_z = [N[j][1], H2[j][1]], [N[j][2], H2[j][2]], [N[j][3], H2[j][3]]

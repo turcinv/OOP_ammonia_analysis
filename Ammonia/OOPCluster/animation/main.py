@@ -18,15 +18,15 @@ parser.add_argument("--make_video", default=False, type=bool, help="Make video f
 
 
 def main(args):
-    frame = list(np.arange(0, args.number_of_cubes * 10, 10))
+    frame = list(np.arange(0, args.number_of_cubes * 10, 10))  # frame have stride 10
     ############################################################################
-    # Cube to pickle
+    # Make pickle fil from cube file
     if args.pickling:
         with Pool(4) as p:
             p.map(cube_to_pickle, frame)
 
     ############################################################################
-    # Animation
+    # Make animation
     if args.animate:
         cubes = frame_loader(frame, read_pickle)
         animate = update(dictionary=cubes,
@@ -35,7 +35,7 @@ def main(args):
                          save_frames=args.save_images)
         mlab.show()
     ############################################################################
-    # Mke video
+    # Make video from frames from animation
     if args.make_video:
         make_video("figures", fps=20, name="test.mp4")
 

@@ -3,7 +3,7 @@ from multiprocessing import Manager, Pool
 
 def frame_loader(frame, read_pickle):
     """
-
+    Loads data from pickle file
     :param frame: number of frame
     :param read_pickle: function to read pickle file
     :return: dictionary with pickle data
